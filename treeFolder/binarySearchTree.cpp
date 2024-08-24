@@ -2,6 +2,7 @@
 
 #include "iostream"
 #include "queue"
+
 using namespace std;
 
 
@@ -36,6 +37,11 @@ int printVec(vector<int> vec){
     return 0;
 }
 
+
+/// @brief search a node according to the val
+/// @param root 
+/// @param target 
+/// @return 
 binaryTreeNode * searchNode(binaryTreeNode * root, int target){
     while(true){
         if (target == root->val){
@@ -55,6 +61,100 @@ binaryTreeNode * searchNode(binaryTreeNode * root, int target){
         }
 
     }
+}
+
+
+/// @brief insert a node to a tree
+/// @param root 
+/// @param target 
+void insertNode(binaryTreeNode * root, int target){
+    binaryTreeNode * pNode = nullptr;
+    binaryTreeNode * cNode = root;
+
+    if (root == nullptr){
+        binaryTreeNode * root = new binaryTreeNode(target);
+        return;
+    }
+
+    while(cNode != nullptr){
+        pNode = cNode;
+
+        if (target < cNode->val){
+            cNode = cNode->left;
+        }else if (target > cNode->val){
+            cNode = cNode->right;
+        }else {
+            return;
+        }
+    }
+
+    if (target > pNode->val){
+        pNode->right = new binaryTreeNode(target);
+    }else {
+        pNode->left = new binaryTreeNode(target);
+    }
+
+}
+
+
+void removeNode(binaryTreeNode * root, int target){
+    binaryTreeNode * pNode = nullptr;
+    binaryTreeNode * cNode = root;
+    while (cNode != nullptr)
+    {
+        pNode = cNode;
+        if (target < cNode->val){
+            cNode = cNode->left;
+        }else if (target > cNode->val){
+            cNode = cNode->right;
+        }else {
+            break;
+        }
+    }
+    // find the target node, target node is cNode, previous node is pNode
+    // cNode have no child node
+    if (cNode->left == nullptr and cNode->right == nullptr){
+        if (cNode->val > pNode->val){
+            pNode->right = nullptr;
+            return;
+        }else {
+            pNode->left = nullptr;
+            return;
+        }
+    } 
+    // cNode have one child node
+    // cNode has one right node
+    else if (cNode->left == nullptr and cNode->right != nullptr){
+        if (cNode->val > pNode->val){
+            pNode->right = cNode->right;
+            return;
+        }else {
+            pNode->left = cNode->right;
+            return;
+        }
+    }
+    // cNode has one left node
+    else if (cNode->left != nullptr and cNode->right == nullptr){
+        if (cNode->val > pNode->val){
+            pNode->right = cNode->left;
+            return;
+        }else {
+            pNode->left = cNode->left;
+            return;
+        }
+    }
+    // // cNode have two child nodes
+    // else {
+    //     if (cNode->val > pNode->val){
+    //         pNode->right = cNode->right;
+    //         cNode->left->left = cNode->left;
+    //         return;
+    //     }else {
+    //         pNode->left = cNode->left;
+    //         cNode->left->left = cNode->left;
+    //         return;
+    //     }
+    // }
 }
 
 int main(){
@@ -86,9 +186,15 @@ int main(){
     inOrder(n0, postVectorNode);
     printVec(postVectorNode);
 
-    int target = 6;
-    binaryTreeNode * targetNode = searchNode(n0, target);
-    cout << targetNode->val << endl;
+    // int target = 6;
+    // binaryTreeNode * targetNode = searchNode(n0, target);
+    // cout << targetNode->val << endl;
+
+    removeNode(n0, 7);
+
+    vector <int> postVectorNode_2;
+    inOrder(n0, postVectorNode_2);
+    printVec(postVectorNode_2);
 
 
     return 0;
