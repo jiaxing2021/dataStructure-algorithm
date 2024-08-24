@@ -50,13 +50,13 @@ binaryTreeNode * searchNode(binaryTreeNode * root, int target){
         if (target < root->val){
         root = root->left;
             if (root == nullptr){
-                break;
+                return nullptr;
             }
         }
         if (target > root->val){
         root = root->right;
             if (root == nullptr){
-                break;
+                return nullptr;
             }
         }
 
@@ -186,15 +186,15 @@ int main(){
     inOrder(n0, postVectorNode);
     printVec(postVectorNode);
 
-    // int target = 6;
-    // binaryTreeNode * targetNode = searchNode(n0, target);
-    // cout << targetNode->val << endl;
+    int target = 6;
+    binaryTreeNode * targetNode = searchNode(n0, target);
+    cout << targetNode->val << endl;
 
-    removeNode(n0, 7);
+    // insertNode(n0, 20);
 
-    vector <int> postVectorNode_2;
-    inOrder(n0, postVectorNode_2);
-    printVec(postVectorNode_2);
+    // vector <int> postVectorNode_2;
+    // inOrder(n0, postVectorNode_2);
+    // printVec(postVectorNode_2);
 
 
     return 0;
