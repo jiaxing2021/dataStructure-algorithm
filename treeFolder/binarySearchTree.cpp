@@ -100,7 +100,8 @@ void insertNode(binaryTreeNode * root, int target){
 void removeNode(binaryTreeNode * root, int target){
     binaryTreeNode * pNode = nullptr;
     binaryTreeNode * cNode = root;
-    while (cNode != nullptr)
+    // search the desired node
+    while (cNode != nullptr and target != cNode->val)
     {
         pNode = cNode;
         if (target < cNode->val){
@@ -122,6 +123,7 @@ void removeNode(binaryTreeNode * root, int target){
             return;
         }
     } 
+    
     // cNode have one child node
     // cNode has one right node
     else if (cNode->left == nullptr and cNode->right != nullptr){
@@ -143,18 +145,21 @@ void removeNode(binaryTreeNode * root, int target){
             return;
         }
     }
-    // // cNode have two child nodes
-    // else {
-    //     if (cNode->val > pNode->val){
-    //         pNode->right = cNode->right;
-    //         cNode->left->left = cNode->left;
-    //         return;
-    //     }else {
-    //         pNode->left = cNode->left;
-    //         cNode->left->left = cNode->left;
-    //         return;
-    //     }
-    // }
+    
+    // cNode have two child nodes
+    else {
+        if (cNode->val > pNode->val){
+            pNode->right = cNode->left;
+            pNode->right->right = cNode->right;
+            // cNode->left->left = cNode->left;
+            return;
+        }else {
+            pNode->left = cNode->left;
+            pNode->left->right = cNode->right;
+            // cNode->left->left = cNode->left;
+            return;
+        }
+    }
 }
 
 int main(){
@@ -174,6 +179,8 @@ int main(){
     binaryTreeNode * n4 = new binaryTreeNode(3); // n4
     binaryTreeNode * n5 = new binaryTreeNode(5); // n5
     binaryTreeNode * n6 = new binaryTreeNode(7); // n6
+    binaryTreeNode * n7 = new binaryTreeNode(8); // n7
+
 
     n0->left = n1;
     n0->right = n2;
@@ -181,20 +188,22 @@ int main(){
     n1->right = n4;
     n2->left = n5;
     n2->right = n6;
+    n6->right = n7;
 
     vector <int> postVectorNode;
     inOrder(n0, postVectorNode);
     printVec(postVectorNode);
 
-    int target = 6;
-    binaryTreeNode * targetNode = searchNode(n0, target);
-    cout << targetNode->val << endl;
+    // int target = 6;
+    // binaryTreeNode * targetNode = searchNode(n0, target);
+    // cout << targetNode->val << endl;
 
     // insertNode(n0, 20);
+    removeNode(n0, 7);
 
-    // vector <int> postVectorNode_2;
-    // inOrder(n0, postVectorNode_2);
-    // printVec(postVectorNode_2);
+    vector <int> postVectorNode_2;
+    inOrder(n0, postVectorNode_2);
+    printVec(postVectorNode_2);
 
 
     return 0;
